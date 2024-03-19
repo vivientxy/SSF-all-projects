@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Ordering Pizza</h1>
+
+    <form method="get" action="/pizza">
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input type="text" name="name">
+                </td>
+            </tr>
+            <tr>
+                <td>Size:</td>
+                <td>
+                    <select name="size">
+                        <option value="s">Small</option>
+                        <option value="m">Medium</option>
+                        <option value="l">Large</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Sauce:</td>
+                <td>
+                    <!-- radio button, similar to selection for size -->
+                    <!-- names must be the same -->
+                    Tomato: <input type="radio" name="sauce" value="tomato">
+                    White: <input type="radio" name="sauce" value="white">
+                    Cheese: <input type="radio" name="sauce" value="cheese">
+                </td>
+            </tr>
+            <tr>
+                <td>Toppings:</td>
+                <td>
+                    Ham: <input type="checkbox" name="topping" value="ham">
+                    Meatball: <input type="checkbox" name="topping" value="meatball">
+                    Cheese: <input type="checkbox" name="topping" value="cheese">
+                </td>
+            </tr>
+            <tr>
+                <td>Comments:</td>
+                <td>
+                    <textarea name="comments" cols="30" rows="3"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit">Submit!</button>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+
+</body>
+</html>

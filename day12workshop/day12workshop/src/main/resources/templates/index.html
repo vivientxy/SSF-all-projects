@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | SSF Day 12 Workshop</title>
+</head>
+<body>
+    
+    <h1>Shopping Cart</h1>
+
+    <form method="get" action="/cart">
+        <table>
+            <tr>
+                <td>Item Name: </td>
+                <td>
+                    <input type="text" name="item">
+                </td>
+            </tr>
+            <tr>
+                <td>Quantity: </td>
+                <td>
+                    <input type="number" name="quantity">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="hidden" name="cart">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit">Add</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <table>
+        <!-- display cart here -->
+        <tr>
+            <td><b><u>Item</u></b></td>
+            <td><b><u>Quantity</u></b></td>
+        </tr>
+        <tr data-th-each="object : ${shoppingCart}">
+            <td><span data-th-text="${object.item}"></span></td>
+            <td><span data-th-text="${object.quantity}"></span></td>
+        </tr>
+    </table>
+
+</body>
+</html>

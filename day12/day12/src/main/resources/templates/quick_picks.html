@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Quick Picks</h1>
+
+    <h4 data-th-each="p : ${picks}">
+        <!-- if a key does not match anything in the expression, then it becomes query parameter -->
+        <a data-th-href="@{/rnd/{i}(i=${p.count},startNum=${p.startNum},endNum=${p.endNum})}">
+            <span data-th-text="${p.count}"></span> random number
+        </a>
+    </h4>
+
+</body>
+</html>

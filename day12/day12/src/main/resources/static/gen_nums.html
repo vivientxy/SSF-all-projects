@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<h2>Generate a list of Random Numbers</h2>
+
+<form method="GET" action="/rnd/list">
+    <!-- method can only be GET or POST -->
+    <!-- action is the resource -->
+
+    <table>
+        <tr>
+            <td>Min</td>
+            <td>
+                <input type="number" name="startNum" value="1">
+            </td>
+        </tr>
+        <tr>
+            <td>Max</td>
+            <td>
+                <input type="number" name="endNum" value="100">
+            </td>
+        </tr>
+        <tr>
+            <td>Count</td>
+            <td>
+                <input type="number" name="count" value="10">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit">Generate</button>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>

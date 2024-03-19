@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+<body>
+
+    <h1>Shopping Cart</h1>
+    
+    <!-- data-th-object is the POJO -->
+    <form method="post" action="/cart2" data-th-object="${item}">
+        <table>
+            <!-- <input type="hidden" name="_cart" data-th-value="${cartString}"> -->
+            <tr>
+                <td>Item Name: </td>
+                <td>
+                    <!-- data-th-field must match the attribute in POJO -->
+                    <!-- uses standard getter and setters to link to POJO -->
+                    <input type="text" name="item" size="30" data-th-field="*{name}">
+                    <!-- <span data-th-if="${#fields.hasErrors('name')}" 
+                    data-th-each="err: ${#fields.errors{'name'}}"
+                    data-th-text="${err}"></span> -->
+                </td>
+            </tr>
+            <tr>
+                <td>Quantity: </td>
+                <td>
+                    <input type="number" name="quantity" data-th-field="*{quantity}">
+                    <span data-th-if="${#fields.hasErrors('quantity')}" 
+                    data-th-errors="${quantity}"
+                    data-th-text="${err}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit" formmethod="post" formaction="/checkout">Checkout</button>
+
+                    <button type="submit">Add</button>
+                </td>
+            </tr>
+        </table>
+
+        <div data-th-if="${#fields.hasErrors('global')}">
+            <span data-th-errors="*{global}"></span>
+        </div>
+    </form>
+
+    <div>
+        <table border="1px">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="i: ${cart}">
+                    <td data-th-text="${i.name}"></td>
+                    <td data-th-text="${i.quantity}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>

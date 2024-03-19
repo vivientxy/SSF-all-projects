@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>My list of random numbers</h2>
+
+    <ul data-th-if="${#lists.size(randNums) > 0}">
+        <li data-th-each="n: ${randNums}">
+            <span data-th-text="${n}"></span>
+        </li>
+    </ul>
+
+    <h3 data-th-unless="${#lists.size(randNums) > 0}">
+        You have not generated any random numbers
+    </h3>
+
+    <h5>
+        <a href="/gen_nums.html">More Random Numbers</a>
+    </h5>
+
+</body>
+</html>
