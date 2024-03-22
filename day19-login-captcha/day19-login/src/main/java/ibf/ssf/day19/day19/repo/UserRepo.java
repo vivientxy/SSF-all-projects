@@ -18,16 +18,19 @@ public class UserRepo {
     HashOperations<String, String, String> hashOps;
 
     // CRUD
+    @SuppressWarnings("null")
     public void createUser(User user) {
         hashOps = redisTemplate.opsForHash();
         hashOps.put(Utils.REDIS_USER_KEY, user.getUsername(), user.toString());
     }
 
+    @SuppressWarnings("null")
     public String retrieveUser(String username) {
         hashOps = redisTemplate.opsForHash();
         return hashOps.get(Utils.REDIS_USER_KEY, username);
     }
 
+    @SuppressWarnings("null")
     public void updateUser(User user) {
         hashOps = redisTemplate.opsForHash();
         hashOps.put(Utils.REDIS_USER_KEY, user.getUsername(), user.toString());
@@ -38,6 +41,7 @@ public class UserRepo {
         hashOps.delete(Utils.REDIS_USER_KEY, username);
     }
 
+    @SuppressWarnings("null")
     public Boolean doesUserExist(String username) {
         hashOps = redisTemplate.opsForHash();
         return hashOps.hasKey(Utils.REDIS_USER_KEY, username);

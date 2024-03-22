@@ -25,6 +25,7 @@ public class RedisConfig {
     @Value("${spring.data.redis.database}")
     private Integer redisDatabase;
 
+    @SuppressWarnings("null")
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
