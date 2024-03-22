@@ -2,10 +2,11 @@ package ibf.ssf.day19.day19.repo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
+import ibf.ssf.day19.day19.model.User;
 import ibf.ssf.day19.day19.util.Utils;
 
 @Repository
@@ -14,27 +15,32 @@ public class UserRepo {
     @Autowired @Qualifier(Utils.REDIS_STRING)
     RedisTemplate<String,String> redisTemplate;
 
-    ValueOperations<String, String> valueOps;
+    HashOperations<String, String, String> hashOps;
 
     // CRUD
-    public void createUser(String username, String password) {
-        valueOps = redisTemplate.opsForValue();
-        valueOps.set(username, password);
+    public void createUser(User user) {
+        hashOps = redisTemplate.opsForHash();
+        hashOps.put(Utils.REDIS_USER_KEY, user.getUsername(), user.toString());
     }
 
-    public String retrieveUserPassword(String username) {
-        valueOps = redisTemplate.opsForValue();
-        return valueOps.get(username);
+    public String retrieveUser(String username) {
+        hashOps = redisTemplate.opsForHash();
+        return hashOps.get(Utils.REDIS_USER_KEY, username);
     }
 
-    public void updateUserPassword(String username, String password) {
-        valueOps = redisTemplate.opsForValue();
-        valueOps.setIfPresent(username, password);
+    public void updateUser(User user) {
+        hashOps = redisTemplate.opsForHash();
+        hashOps.put(Utils.REDIS_USER_KEY, user.getUsername(), user.toString());
     }
 
     public void deleteUser(String username) {
-        valueOps = redisTemplate.opsForValue();
-        valueOps.getAndDelete(username);
+        hashOps = redisTemplate.opsForHash();
+        hashOps.delete(Utils.REDIS_USER_KEY, username);
+    }
+
+    public Boolean doesUserExist(String username) {
+        hashOps = redisTemplate.opsForHash();
+        return hashOps.hasKey(Utils.REDIS_USER_KEY, username);
     }
 
 }

@@ -14,6 +14,7 @@ import ibf.ssf.day19.day19.model.User;
 import ibf.ssf.day19.day19.service.UserService;
 import ibf.ssf.day19.day19.util.Utils;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping
@@ -22,22 +23,17 @@ public class LoginController {
     @Autowired
     UserService svc;
 
-    @GetMapping(path = {"/"})
+    @GetMapping(path = { "/" })
     public ModelAndView getIndex(HttpSession sess) {
         ModelAndView mav = new ModelAndView("index");
-        Captcha cap = new Captcha();
-        if (getAttempts(sess) >= Utils.TRIES_TILL_CAPTCHA) {
-            cap.setNum1(Captcha.generate());
-            cap.setNum2(Captcha.generate());
-        }
-        mav.addObject("loginUser", new User());
+        mav.addObject("user", new User());
         mav.addObject("attempts", getAttempts(sess));
-        mav.addObject("captcha", cap);
+        mav.addObject("captcha", new Captcha());
         System.out.println("GET MAPPING");
         return mav;
     }
 
-    @PostMapping(path = {"logout"})
+    @PostMapping(path = { "logout" })
     public ModelAndView processLogout(HttpSession sess) {
         ModelAndView mav = new ModelAndView();
         sess.invalidate();
@@ -46,66 +42,64 @@ public class LoginController {
         return mav;
     }
 
-    @PostMapping(path="/login")
-    public ModelAndView getLogin(HttpSession sess, @ModelAttribute User loginUser, BindingResult binding, @ModelAttribute Captcha captcha) {
-        // **implement mandatory fields for username, password and captcha?!?!
-
+    @PostMapping(path = "/login")
+    public ModelAndView getLogin(HttpSession sess, @ModelAttribute Captcha captcha, @ModelAttribute @Valid User user,
+            BindingResult bindingUser) {
+        ModelAndView mav = new ModelAndView("index");
         System.out.println("POST MAPPING. ATTEMPT NUMBER: " + getAttempts(sess));
-        ModelAndView mav = new ModelAndView();
 
-        // if login succeed (with and without captcha):
-        if (svc.isPasswordCorrect(loginUser)) {
-            if (captcha.isEmpty() || captcha.isCorrect())
-                System.out.println("captcha is empty: " + captcha.isEmpty() + captcha.toString());
-                System.out.println("captcha is correct: " + captcha.isCorrect());
-                mav.setViewName("success");
-                return mav;
-        }
-
-        // if login fail
-        Captcha cap = new Captcha();
-
-        // check for input errors
-        if (binding.hasErrors()) {
-            mav.setViewName("index");
-            mav.addObject("attempts", getAttempts(sess));
-            mav.addObject("loginUser", loginUser);
-            mav.addObject("captcha", cap);
+        // check for suspension
+        if (getAttempts(sess) > Utils.TRIES_TILL_SUSPEND) {
+            mav.setViewName("suspended");
             return mav;
         }
 
-        int attempts = getAttempts(sess) + 1;
-
-        if (attempts < Utils.TRIES_TILL_CAPTCHA) {
-            // display number of attempts left
-            mav.setViewName("index");
-        } else if (attempts < Utils.TRIES_TILL_SUSPEND) {
-            // captcha + display number of attempts left
-            cap.setNum1(Captcha.generate());
-            cap.setNum2(Captcha.generate());
-            mav.setViewName("index");
-        } else {
-            // suspended
-            mav.setViewName("suspended");
+        // check for input errors -- return to page without ++ attempts
+        if (bindingUser.hasErrors()) {
+            mav.addObject("user", user);
+            mav.addObject("attempts", getAttempts(sess));
+            mav.addObject("captcha", new Captcha()); // give new Captcha
+            return mav;
         }
 
-        sess.setAttribute("attempts", attempts);
-        mav.addObject("attempts", attempts);
-        mav.addObject("loginUser", loginUser);
-        mav.addObject("captcha", cap);
+        // if login succeed (with and without captcha):
+        if (svc.isPasswordCorrect(user)) {
+            System.out.println("Is captcha enabled?: " + isCaptchaEnabled(sess));
+            System.out.println("Is captcha correct?: " + captcha.isCorrect());
+            if (!isCaptchaEnabled(sess) || captcha.isCorrect()) {
+                mav.setViewName("success");
+                return mav;
+            }
+        }
 
-        System.out.println("captcha is empty: " + captcha.isEmpty() + captcha.toString());
-        System.out.println("captcha is correct: " + captcha.isCorrect());
-        System.out.println("POST -- FAIL LOGIN. ATTEMPT NUMBER: " + getAttempts(sess) + " AND MAV IS: " + mav.toString() + " AND CAPTCHA IS: " + cap.getNum1() + "," + cap.getNum2());
+        // if login fail
+        int attempts = getAttempts(sess) + 1;
+        sess.setAttribute("attempts", attempts);
+
+        //suspended
+        if (attempts >= Utils.TRIES_TILL_SUSPEND)
+            mav.setViewName("suspended");
+
+        System.out
+                .println("POST -- FAIL LOGIN. ATTEMPT NUMBER: " + getAttempts(sess) + " AND MAV IS: " + mav.toString());
+
+        mav.addObject("attempts", attempts);
+        mav.addObject("user", user);
+        mav.addObject("captcha", new Captcha());
         return mav;
     }
 
     private Integer getAttempts(HttpSession sess) {
         Object a = sess.getAttribute("attempts");
-        if (null == a) {
+        if (null == a)
             return 0;
-        }
-        return (Integer)a;
+        return (Integer) a;
+    }
+
+    private Boolean isCaptchaEnabled(HttpSession sess) {
+        if (getAttempts(sess) >= Utils.TRIES_TILL_CAPTCHA)
+            return true;
+        return false;
     }
 
 }

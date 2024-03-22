@@ -1,16 +1,21 @@
 package ibf.ssf.day19.day19.model;
 
-import jakarta.validation.constraints.NotNull;
+import java.util.IllegalFormatException;
+
 import jakarta.validation.constraints.Size;
 
 public class User {
 
-    @NotNull(message = "Username cannot be null!")
-    @Size(min = 5, max = 15, message = "Username length should be between 5 and 15 characters")
+    @Size(min = 5, message = "Username must have at least 5 characters")
+    @Size(max = 20, message = "The maximum length for username is 20 characters")
     private String username;
-    @NotNull(message = "Password cannot be null!")
-    @Size(min = 8, max = 25, message = "Password length should be between 8 and 25 characters")
+    @Size(min = 8, message = "Password must have at least 8 characters")
+    @Size(max = 30, message = "The maximum length for password is 30 characters")
     private String password;
+    private String securityQuestion;
+    @Size(min = 3, message = "Security Answer must have at least 3 characters")
+    @Size(max = 50, message = "The maximum length for Security Answer is 50 characters")
+    private String securityAnswer;
     
     public User() {
     }
@@ -26,11 +31,33 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
+    }
     @Override
     public String toString() {
-        return username + "," + password;
+        // ensure format matches with strToUser() method
+        return username + "," + password + "," + securityQuestion + "," + securityAnswer;
     }
-    public String generateDefaultPassword() {
-        return (username + "'sPassword");
+
+    // strToUser method here to cross-check that it matches with toString()
+    public static User strToUser(String userString) throws IllegalFormatException, ArrayIndexOutOfBoundsException {
+        String[] userFields = userString.split(",");
+        User user = new User();
+        user.setUsername(userFields[0]);
+        user.setPassword(userFields[1]);
+        user.setSecurityQuestion(userFields[2]);
+        user.setSecurityAnswer(userFields[3]);
+        return user;
     }
+    
 }

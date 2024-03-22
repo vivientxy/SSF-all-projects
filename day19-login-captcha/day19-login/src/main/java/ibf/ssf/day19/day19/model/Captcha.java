@@ -6,9 +6,12 @@ public class Captcha {
 
     private Integer num1;
     private Integer num2;
+    // @NotNull(message = "Please enter Captcha digits")
     private Integer ans;
 
     public Captcha() {
+        this.num1 = generate();
+        this.num2 = generate();
     }
     public Integer getNum1() {
         return num1;
@@ -28,7 +31,7 @@ public class Captcha {
     public void setAns(Integer ans) {
         this.ans = ans;
     }
-    public static Integer generate() {
+    private Integer generate() {
         Random rand = new Random();
         return rand.nextInt(10);
     }
@@ -38,13 +41,7 @@ public class Captcha {
         }
         Integer ans1 = this.ans/10;
         Integer ans2 = this.ans%10;
-        System.out.println("========== answers =========");
-        System.out.println(ans1);
-        System.out.println(ans2);
         return (this.num1==ans1 && this.num2==ans2);
-    }
-    public Boolean isEmpty() {
-        return (null == this.num1);
     }
     @Override
     public String toString() {

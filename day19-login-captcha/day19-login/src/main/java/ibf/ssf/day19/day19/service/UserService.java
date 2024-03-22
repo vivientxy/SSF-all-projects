@@ -14,54 +14,75 @@ public class UserService {
 
     // CRUD
     public Boolean createUser(User user) {
-        if (null == repo.retrieveUserPassword(user.getUsername())) {
-            repo.createUser(user.getUsername(), user.getPassword());
+        if (!repo.doesUserExist(user.getUsername())) {
+            repo.createUser(user);
             return true;
         }
         return false;
     }
 
-    public String retrieveUserPassword(String username) {
-        return repo.retrieveUserPassword(username);
+    public User retrieveUser(String username) {
+        String userString = repo.retrieveUser(username);
+        User user;
+        try {
+            user = User.strToUser(userString);
+        } catch (Exception e) {
+            e.printStackTrace();
+            user = new User();
+        }
+        return user;
     }
 
-    public Boolean updateUserPassword(User user) {
-        if (null != repo.retrieveUserPassword(user.getUsername())) {
-            repo.updateUserPassword(user.getUsername(), user.getPassword());
+    public Boolean updateUser(User user) {
+        if (repo.doesUserExist(user.getUsername())) {
+            repo.updateUser(user);
             return true;
         }
         return false;
     }
 
     public Boolean deleteUser(User user) {
-        if (user.getPassword().equals(repo.retrieveUserPassword(user.getUsername()))) {
-            repo.deleteUser(user.getUsername());
+        String username = user.getUsername();
+        // check if password correct, verify identity before deleting
+        String enteredPassword = user.getPassword();
+        String recordedPassword;
+        try {
+            recordedPassword = User.strToUser(repo.retrieveUser(username)).getPassword();
+        } catch (Exception e) {
+            e.printStackTrace();
+            recordedPassword = null;
+        }
+
+        if (enteredPassword.equals(recordedPassword)) {
+            repo.deleteUser(username);
             return true;
         }
         return false;
     }
 
     public Boolean doesUserExist(User loginUser) {
-        if (null == repo.retrieveUserPassword(loginUser.getUsername())) {
-            return false;
-        }
-        return true;
+        return repo.doesUserExist(loginUser.getUsername());
+    }
+
+    public Boolean doesUserExist(String username) {
+        return repo.doesUserExist(username);
+
     }
 
     public Boolean isPasswordCorrect(User loginUser) {
         if (doesUserExist(loginUser)) {
             String username = loginUser.getUsername();
-            String attemptedPassword = loginUser.getPassword();
-            String correctPassword = repo.retrieveUserPassword(username);
-            return attemptedPassword.equals(correctPassword);
+            String enteredPassword = loginUser.getPassword();
+            String recordedPassword;
+            try {
+                recordedPassword = User.strToUser(repo.retrieveUser(username)).getPassword();
+            } catch (Exception e) {
+                e.printStackTrace();
+                recordedPassword = null;
+            }
+            return enteredPassword.equals(recordedPassword);
         }
         return false;
-    }
-
-    public String setDefaultPassword(User user) {
-        String password = user.getUsername() + "'sPassword";
-        user.setPassword(password);
-        return password;
     }
 
 }
