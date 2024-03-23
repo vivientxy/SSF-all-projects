@@ -33,7 +33,7 @@
             <input
               type="text"
               name="username"
-              style="width: 350px"
+              style="width: 380px"
               th:field="*{username}"
             />
           </td>
@@ -45,7 +45,7 @@
             <input
               type="password"
               name="password"
-              style="width: 350px"
+              style="width: 380px"
               th:field="*{password}"
             />
           </td>
@@ -54,21 +54,33 @@
         <tr>
           <th style="width: auto">Security Question:</th>
           <td>
-            <select data-th-field="*{securityQuestion}" style="width: 350px">
-              <option value="What is your favourite book?">
-                What is your favourite book?
+            <select data-th-field="*{securityQuestion}" style="width: 380px">
+              <option value="Who is your favourite Marvel character?">
+                Who is your favourite Marvel character?
               </option>
-              <option value="What is your mother's maiden name?">
-                What is your mother's maiden name?
+              <option value="What is your favourite shape?">
+                What is your favourite shape?
               </option>
-              <option value="Where did your father and mother meet?">
-                Where did your father and mother meet?
+              <option value="When is your father's aunt's husband's birthdate?">
+                When is your father's aunt's husband's birthdate?
               </option>
-              <option value="What is the name of your favourite teacher?">
-                What is the name of your favourite teacher?
+              <option value="What is your favourite brand of coffee?">
+                What is your favourite brand of coffee?
               </option>
-              <option value="Which city were you born in?">
-                Which city were you born in?
+              <option value="Why is the Earth round?">
+                Why is the Earth round?
+              </option>
+              <option value="Where can you find the best bagel?">
+                Where can you find the best bagel?
+              </option>
+              <option value="What happens after life?">
+                What happens after life?
+              </option>
+              <option value="What superpower is the best?">
+                What superpower is the best?
+              </option>
+              <option value="Which historical figure shouldn't exist?">
+                Which historical figure shouldn't exist?
               </option>
             </select>
           </td>
@@ -80,7 +92,7 @@
             <input
               type="text"
               name="securityAnswer"
-              style="width: 350px"
+              style="width: 380px"
               th:field="*{securityAnswer}"
             />
           </td>
