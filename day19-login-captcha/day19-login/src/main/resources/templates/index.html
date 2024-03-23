@@ -4,20 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
   </head>
-  <body>
-    <h1>Login</h1>
+  <body style="margin: 50px">
+    <h1 class="display-5">Login</h1>
 
     <form method="post" action="/login" th:object="${user}">
-      <table>
+      <table class="table table-borderless" style="white-space:nowrap;width:100%;">
         <tr>
-          <td>Username:</td>
-          <td><input type="text" name="username" size="30" th:field="*{username}" /></td>
+          <th style="width:auto">Username:</th>
+          <td>
+            <input
+              type="text"
+              name="username"
+              size="30"
+              th:field="*{username}"
+            />
+          </td>
           <td><span style="color: red" th:errors="*{username}"></span></td>
         </tr>
         <tr>
-          <td>Password:</td>
-          <td><input type="password" name="password" size="30" th:field="*{password}" /></td>
+          <th style="width:auto">Password:</th>
+          <td>
+            <input
+              type="password"
+              name="password"
+              size="30"
+              th:field="*{password}"
+            />
+          </td>
           <td><span style="color: red" th:errors="*{password}"></span></td>
         </tr>
         <tr th:if="${attempts >= 2}">
@@ -26,13 +46,21 @@
             <div th:object="${captcha}">
               <h5>Please complete the following captcha</h5>
               <span>
-                <img th:src="@{/numbers/number{n}.jpg(n = ${captcha.num1})}" alt="number" width="100px">
-                <img th:src="@{/numbers/number{n}.jpg(n = ${captcha.num2})}" alt="number" width="100px">
+                <img
+                  th:src="@{/numbers/number{n}.jpg(n = ${captcha.num1})}"
+                  alt="number"
+                  width="100px"
+                />
+                <img
+                  th:src="@{/numbers/number{n}.jpg(n = ${captcha.num2})}"
+                  alt="number"
+                  width="100px"
+                />
               </span>
               <div>
-                <input type="hidden" th:field="*{num1}" th:value="*{num1}"/>
-                <input type="hidden" th:field="*{num2}" th:value="*{num2}"/>
-                <input type="number" th:field="*{ans}" th:value="-1"/>
+                <input type="hidden" th:field="*{num1}" th:value="*{num1}" />
+                <input type="hidden" th:field="*{num2}" th:value="*{num2}" />
+                <input type="number" th:field="*{ans}" th:value="-1" />
                 <!-- <div style="color: red" th:errors="*{ans}"></div> -->
               </div>
             </div>
@@ -40,18 +68,27 @@
         </tr>
         <tr>
           <td></td>
-          <td><button type="submit">Login</button></td>
+          <td><button type="submit" class="btn btn-primary">Login</button></td>
         </tr>
       </table>
     </form>
 
     <div th:if="${attempts > 0}">
       <div th:if="${attempts < 4}">
-        <h4 style="color: red">You have <code th:text="${4 - attempts}"></code> more attempts</h4>
+        <h4 style="color: red">
+          You have <code th:text="${4 - attempts}"></code> more attempts
+        </h4>
       </div>
       <div th:unless="${attempts < 4}">
         <h4 style="color: red">You have attempted to log in too many times.</h4>
       </div>
     </div>
+
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
