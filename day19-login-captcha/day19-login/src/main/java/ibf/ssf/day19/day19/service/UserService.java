@@ -33,14 +33,6 @@ public class UserService {
         return user;
     }
 
-    private Boolean updateUser(User user) {
-        if (repo.doesUserExist(user.getUsername())) {
-            repo.updateUser(user);
-            return true;
-        }
-        return false;
-    }
-
     public void updateUserPassword(String username, String newPassword) {
         User retrievedUser = retrieveUser(username);
         retrievedUser.setPassword(newPassword);
