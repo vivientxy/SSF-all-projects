@@ -27,8 +27,8 @@ public class LoginController {
     UserService svc;
 
     @GetMapping(path = { "/" })
-    public ModelAndView getIndex(HttpSession sess) {
-        ModelAndView mav = new ModelAndView("index");
+    public ModelAndView getLogin(HttpSession sess) {
+        ModelAndView mav = new ModelAndView("login");
         mav.addObject("user", new User());
         mav.addObject("attempts", getAttempts(sess));
         mav.addObject("captcha", new Captcha());
@@ -56,7 +56,7 @@ public class LoginController {
     @PostMapping(path = "/login")
     public ModelAndView getLogin(HttpSession sess, @ModelAttribute Captcha captcha, @ModelAttribute @Valid User user,
             BindingResult bindingUser) {
-        ModelAndView mav = new ModelAndView("index");
+        ModelAndView mav = new ModelAndView("login");
         System.out.println("POST MAPPING. ATTEMPT NUMBER: " + getAttempts(sess));
 
         // check for suspension

@@ -41,6 +41,12 @@ public class UserService {
         return false;
     }
 
+    public void updateUserPassword(String username, String newPassword) {
+        User retrievedUser = retrieveUser(username);
+        retrievedUser.setPassword(newPassword);
+        repo.updateUser(retrievedUser);
+    }
+
     public Boolean deleteUser(User user) {
         String username = user.getUsername();
         // check if password correct, verify identity before deleting
@@ -99,12 +105,6 @@ public class UserService {
             return enteredAnswer.equals(recordedAnswer);
         }
         return false;
-    }
-
-    public void updateUserPassword(String username, String newPassword) {
-        User retrievedUser = retrieveUser(username);
-        retrievedUser.setPassword(newPassword);
-        repo.updateUser(retrievedUser);
     }
 
 }
