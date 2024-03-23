@@ -13,7 +13,7 @@ public class User {
     @Size(max = 30, message = "The maximum length for password is 30 characters")
     private String password;
     private String securityQuestion;
-    @Size(min = 3, message = "Security Answer must have at least 3 characters")
+    @Size(min = 5, message = "Security Answer must have at least 5 characters")
     @Size(max = 50, message = "The maximum length for Security Answer is 50 characters")
     private String securityAnswer;
     

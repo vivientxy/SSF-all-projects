@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register an Account</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body style="margin: 50px">
+    <h1 class="display-5">Register an Account</h1>
+
+    <form method="post" action="/register" th:object="${user}">
+      <table
+        class="table table-borderless"
+        style="white-space: nowrap; width: 500px"
+      >
+
+      <tr th:if="${#fields.hasErrors('global')}">
+        <td></td>
+        <td th:each="err : ${#fields.errors('global')}">
+          <span style="color: red" th:text="${err}"></span>
+        </td>
+      </tr>
+
+        <tr>
+          <th style="width: auto">Username:</th>
+          <td>
+            <input
+              type="text"
+              name="username"
+              style="width: 350px"
+              th:field="*{username}"
+            />
+          </td>
+          <td><span style="color: red" th:errors="*{username}"></span></td>
+        </tr>
+        <tr>
+          <th style="width: auto">Password:</th>
+          <td>
+            <input
+              type="password"
+              name="password"
+              style="width: 350px"
+              th:field="*{password}"
+            />
+          </td>
+          <td><span style="color: red" th:errors="*{password}"></span></td>
+        </tr>
+        <tr>
+          <th style="width: auto">Security Question:</th>
+          <td>
+            <select data-th-field="*{securityQuestion}" style="width: 350px">
+              <option value="What is your favourite book?">
+                What is your favourite book?
+              </option>
+              <option value="What is your mother's maiden name?">
+                What is your mother's maiden name?
+              </option>
+              <option value="Where did your father and mother meet?">
+                Where did your father and mother meet?
+              </option>
+              <option value="What is the name of your favourite teacher?">
+                What is the name of your favourite teacher?
+              </option>
+              <option value="Which city were you born in?">
+                Which city were you born in?
+              </option>
+            </select>
+          </td>
+        </tr>
+
+        <tr>
+          <th style="width: auto">Security Answer:</th>
+          <td>
+            <input
+              type="text"
+              name="securityAnswer"
+              style="width: 350px"
+              th:field="*{securityAnswer}"
+            />
+          </td>
+          <td>
+            <span style="color: red" th:errors="*{securityAnswer}"></span>
+          </td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td>
+            <button type="submit" class="btn btn-primary">
+              Register Account
+            </button>
+          </td>
+        </tr>
+      </table>
+    </form>
+
+    <div>Have an account? <a href="/" class="text-reset">Login here</a></div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

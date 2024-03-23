@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Forgot Password</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -12,13 +12,22 @@
     />
   </head>
   <body style="margin: 50px">
-    <h1 class="display-5">Login</h1>
+    <h1 class="display-5">Reset your password</h1>
 
-    <form method="post" action="/login" th:object="${user}">
+    <form method="post" action="/reset" th:object="${user}">
       <table
         class="table table-borderless"
         style="white-space: nowrap; width: 500px"
       >
+        <tr>
+          <td></td>
+          <td>
+            <span th:each="err : ${#fields.errors('global')}">
+              <span style="color: red" th:text="${err}"></span>
+            </span>
+          </td>
+        </tr>
+
         <tr>
           <th style="width: auto">Username:</th>
           <td>
@@ -29,23 +38,9 @@
               th:field="*{username}"
             />
           </td>
-          <td><span style="color: red" th:errors="*{username}"></span></td>
+          <td style="width: 200px"></td>
         </tr>
         <tr>
-          <th style="width: auto">Password:</th>
-          <td>
-            <input
-              type="password"
-              name="password"
-              size="30"
-              th:field="*{password}"
-            />
-          </td>
-          <td style="width: 200px">
-            <span style="color: red" th:errors="*{password}"></span>
-          </td>
-        </tr>
-        <tr th:if="${attempts >= 2}">
           <th style="width: auto"></th>
           <td colspan="2">
             <div th:object="${captcha}">
@@ -80,31 +75,17 @@
         </tr>
         <tr>
           <td></td>
-          <td><button type="submit" class="btn btn-primary">Login</button></td>
+          <td>
+            <button type="submit" class="btn btn-primary">
+              Update Password
+            </button>
+          </td>
         </tr>
       </table>
     </form>
 
-    <div th:if="${attempts > 0}">
-      <div th:if="${attempts < 4}">
-        <h5 style="color: red">
-          You have <code th:text="${4 - attempts}"></code> more attempts
-        </h5>
-      </div>
-      <div th:unless="${attempts < 4}">
-        <h5 style="color: red">You have attempted to log in too many times.</h5>
-      </div>
-    </div>
-
     <div>
-      <a href="/reset" class="text-decoration-none text-reset"
-        >Forgot password?</a
-      >
-    </div>
-    <div>
-      <a href="/register" class="text-decoration-none text-reset"
-        >Register an account</a
-      >
+      <a href="/" class="text-decoration-none text-reset">Back to login</a>
     </div>
 
     <script

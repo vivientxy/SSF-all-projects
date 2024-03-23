@@ -85,4 +85,26 @@ public class UserService {
         return false;
     }
 
+    public Boolean isSecurityAnswerCorrect(User loginUser) {
+        if (doesUserExist(loginUser)) {
+            String username = loginUser.getUsername();
+            String enteredAnswer = loginUser.getSecurityAnswer();
+            String recordedAnswer;
+            try {
+                recordedAnswer = User.strToUser(repo.retrieveUser(username)).getSecurityAnswer();
+            } catch (Exception e) {
+                e.printStackTrace();
+                recordedAnswer = null;
+            }
+            return enteredAnswer.equals(recordedAnswer);
+        }
+        return false;
+    }
+
+    public void updateUserPassword(String username, String newPassword) {
+        User retrievedUser = retrieveUser(username);
+        retrievedUser.setPassword(newPassword);
+        repo.updateUser(retrievedUser);
+    }
+
 }
