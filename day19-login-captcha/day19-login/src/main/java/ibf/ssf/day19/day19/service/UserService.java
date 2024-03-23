@@ -33,7 +33,7 @@ public class UserService {
         return user;
     }
 
-    public Boolean updateUser(User user) {
+    private Boolean updateUser(User user) {
         if (repo.doesUserExist(user.getUsername())) {
             repo.updateUser(user);
             return true;
